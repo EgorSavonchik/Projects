@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="GET" action="http://localhost:8080/books/search">
+        <label for="req">Search</label>
+        <input name="req" id="req">
+        <button>Search</button>
+    </form>
+
+    <div th:if="${result != null}" th:each="book : ${result}">
+        <a th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}"></a>
+        <p th:if="${book.hasOwner()}">This book don't have owner</p>
+        <p th:if="${!book.hasOwner()}" th:text="'Owner: ' +  ${book.getOwner().getName()}"></p>
+    </div>
+
+    <div th:if="${result != null && result.isEmpty()}">Not found</div>
+</body>
+</html>
