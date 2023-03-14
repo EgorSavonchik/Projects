@@ -2,7 +2,6 @@ package webapp.code.spring.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class BookService
 
     public List<Book> findBooksByNameIsStartingWith(String str)
     {
-        if(str == "") //чтобы не выводило всех при пустом запросе
+        if(str.isBlank()) //don't output empty query
         {
             return null;
         }
