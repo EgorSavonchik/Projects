@@ -1,21 +1,19 @@
 package webapp.code.spring.Model;
 
-
-
 import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @Entity
 @Table(name = "person")
+@Validated
 public class Person
 {
     @Id
@@ -28,18 +26,19 @@ public class Person
     private String name;
 
     @Column(name = "age")
+    @NotNull(message = "Age must not be empty")
     @Min(value = 0, message = "Age cant be < 0")
-    @NotNull(message = "Incorrect age")
-    private int age;
+    private Integer age;
 
     @Column(name = "email")
-    @Email
+    @NotEmpty(message = "Email must not be empty")
+    @Email(message = "Incorrect email")
     private String email;
 
-    @NotNull(message = "Age of birth is empty")
-    @Min(value = 1850, message = "Incorrect year of birth")
     @Column(name = "yearofbirth")
-    private int yearOfBirth;
+    @NotNull(message = "Age of birth must not be empty")
+    @Min(value = 1850, message = "Incorrect year of birth")
+    private Integer yearOfBirth;
 
     @OneToMany(mappedBy = "owner")
     @Cascade(value = org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -59,12 +58,12 @@ public class Person
 
     }
 
-    public int getAge()
+    public Integer getAge()
     {
         return age;
     }
 
-    public void setAge(int age)
+    public void setAge(Integer age)
     {
         this.age = age;
     }
@@ -99,12 +98,12 @@ public class Person
         this.name = name;
     }
 
-    public int getYearOfBirth()
+    public Integer getYearOfBirth()
     {
         return yearOfBirth;
     }
 
-    public void setYearOfBirth(int yearOfBirth)
+    public void setYearOfBirth(Integer yearOfBirth)
     {
         this.yearOfBirth = yearOfBirth;
     }

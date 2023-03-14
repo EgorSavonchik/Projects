@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import webapp.code.spring.Model.Person;
 import webapp.code.spring.Services.PeopleService;
-import webapp.code.spring.Util.PersonValidator;
 
 import javax.validation.Valid;
 
@@ -16,12 +15,10 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class PeopleController
 {
-    private final PersonValidator personValidator;
     private final PeopleService peopleService;
     @Autowired
-    public PeopleController(PersonValidator personValidator, PeopleService peopleService)
+    public PeopleController(PeopleService peopleService)
     {
-        this.personValidator = personValidator;
         this.peopleService = peopleService;
     }
 
@@ -51,8 +48,6 @@ public class PeopleController
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult errors)
     {
-        personValidator.validate(person, errors);
-
         if(errors.hasErrors())
         {
             return "/people/new";
@@ -75,8 +70,6 @@ public class PeopleController
     public String correct(@ModelAttribute("person") @Valid Person person, BindingResult errors,
                           @PathVariable("id") int id)
     {
-        personValidator.validate(person, errors);
-
         if(errors.hasErrors())
         {
             return "people/edit";
